@@ -81,27 +81,27 @@
       margin-bottom: 1rem;
     }
 
-    /* Floating hearts */
+    /* BIGGER floating hearts */
     .heart {
       position: fixed;
-      color: rgba(255,255,255,0.7);
-      font-size: 1.2rem;
-      animation: floatUp 6s linear infinite;
+      color: rgba(255,255,255,0.75);
+      font-size: 2.2rem; /* BIGGER */
+      animation: floatUp 7s linear infinite;
       z-index: 0;
     }
 
-    /* Floating flowers */
+    /* BIGGER floating flowers */
     .flower {
       position: fixed;
-      font-size: 1.4rem;
-      opacity: 0.6;
-      animation: floatUp 10s linear infinite;
+      font-size: 2.4rem; /* BIGGER */
+      opacity: 0.65;
+      animation: floatUp 11s linear infinite;
       z-index: 0;
     }
 
     .burst-heart {
       position: fixed;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       pointer-events: none;
       animation: burst 900ms ease-out forwards;
     }
@@ -132,7 +132,7 @@
 <body>
 
   <!-- Background Music -->
-  <audio autoplay loop>
+  <audio id="bgMusic" loop>
     <source src="our.music.mp3" type="audio/mpeg">
   </audio>
 
@@ -142,7 +142,7 @@
       <img class="flowers" src="us.jpg.jpg" alt="flowers">
       <h1>Happy Valentine’s Day, Babi!! ❤️</h1>
       <p>I made something special for you, abaw special.</p>
-      <button onclick="goToPage(2)">Read my message 💌</button>
+      <button onclick="playMusic(); goToPage(2)">Read my message 💌</button>
     </div>
   </div>
 
@@ -169,6 +169,12 @@
   </div>
 
   <script>
+    const music = document.getElementById('bgMusic');
+
+    function playMusic() {
+      music.play().catch(() => {});
+    }
+
     function goToPage(num) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
       document.getElementById('page' + num).classList.add('active');
@@ -181,12 +187,12 @@
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
 
-      for (let i = 0; i < 24; i++) {
+      for (let i = 0; i < 26; i++) {
         const h = document.createElement('div');
         h.className = 'burst-heart';
         h.innerHTML = '❤';
         const angle = Math.random() * Math.PI * 2;
-        const distance = Math.random() * 120 + 40;
+        const distance = Math.random() * 140 + 40;
         h.style.left = cx + 'px';
         h.style.top = cy + 'px';
         h.style.setProperty('--x', Math.cos(angle) * distance + 'px');
@@ -207,17 +213,17 @@
       noBtn.style.transform = `translate(${x}px, ${y}px)`;
     });
 
-    // Floating hearts
-    for (let i = 0; i < 30; i++) {
+    // Floating hearts (bigger)
+    for (let i = 0; i < 26; i++) {
       const heart = document.createElement('div');
       heart.className = 'heart';
       heart.innerHTML = '❤';
       heart.style.left = Math.random() * 100 + 'vw';
-      heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+      heart.style.animationDuration = (Math.random() * 3 + 5) + 's';
       document.body.appendChild(heart);
     }
 
-    // Floating flowers
+    // Floating flowers (bigger)
     const flowersBg = ['🌸','🌷','🌹','💐','🌼'];
 
     for (let i = 0; i < 18; i++) {
@@ -225,11 +231,11 @@
       flower.className = 'flower';
       flower.innerHTML = flowersBg[Math.floor(Math.random() * flowersBg.length)];
       flower.style.left = Math.random() * 100 + 'vw';
-      flower.style.animationDuration = (Math.random() * 5 + 8) + 's';
-      flower.style.fontSize = (Math.random() * 1 + 1.2) + 'rem';
+      flower.style.animationDuration = (Math.random() * 5 + 9) + 's';
       document.body.appendChild(flower);
     }
   </script>
 
 </body>
 </html>
+
