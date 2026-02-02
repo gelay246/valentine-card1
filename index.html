@@ -1,181 +1,246 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Valentine ❤️</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Valentine's, Babi!💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
 
-body{
-  min-height:100vh;
-  font-family:'Poppins',sans-serif;
-  background:linear-gradient(135deg,#ff5f8f,#ffb3c6);
-  overflow:hidden;
-}
+    .screen {
+      display: none;
+      width: 100%;
+      max-width: 420px;
+      padding: 24px;
+      text-align: center;
+    }
 
-.page{
-  min-height:100vh;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:1.5rem;
-}
-.page.active{display:flex}
+    .active { display: block; }
 
-.card{
-  background:rgba(255,255,255,.96);
-  padding:2.5rem 2rem;
-  border-radius:28px;
-  max-width:420px;
-  width:100%;
-  text-align:center;
-  box-shadow:0 30px 60px rgba(0,0,0,.18);
-  position:relative;
-  z-index:5;
-}
+    .card {
+      background: #fff;
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      position: relative;
+    }
 
-h1,h2{
-  font-family:'Playfair Display',serif;
-  color:#b5173a;
-  margin-bottom:1rem;
-}
+    h1, h2 {
+      font-family: 'Pacifico', cursive;
+      color: #e63973;
+    }
 
-p{color:#555;margin-bottom:1.6rem}
+    button {
+      background: linear-gradient(135deg, #ff4d6d, #ff85a1);
+      border: none;
+      border-radius: 999px;
+      padding: 12px 24px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      margin-top: 16px;
+      transition: transform .2s ease;
+    }
 
-button{
-  background:#c9184a;
-  color:white;
-  border:none;
-  padding:.8rem 2rem;
-  border-radius:999px;
-  font-size:1rem;
-  cursor:pointer;
-  transition:.25s;
-}
-button:hover{transform:scale(1.08)}
+    button:hover { transform: scale(1.05); }
 
-.flowers,.photo{
-  width:100%;
-  border-radius:18px;
-  margin-bottom:1rem;
-}
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1px solid #ddd;
+      margin-top: 12px;
+      font-family: inherit;
+    }
 
-/* 💖 HUGE FLOATING HEARTS */
-.heart{
-  position:fixed;
-  font-size:3.8rem;
-  opacity:.8;
-  animation:floatUp 9s linear infinite;
-  z-index:1;
-}
+    textarea { min-height: 100px; }
 
-/* 🌸 HUGE FLOATING FLOWERS */
-.flower{
-  position:fixed;
-  font-size:4.2rem;
-  opacity:.75;
-  animation:floatUp 13s linear infinite;
-  z-index:1;
-}
+    .floating {
+      position: fixed;
+      pointer-events: none;
+      animation: float 8s linear infinite;
+      opacity: 0.6;
+    }
 
-@keyframes floatUp{
-  from{transform:translateY(110vh)}
-  to{transform:translateY(-20vh)}
-}
-</style>
+    @keyframes float {
+      from { transform: translateY(100vh) scale(0.5); }
+      to { transform: translateY(-20vh) scale(1); }
+    }
+
+    /* Mini Game */
+    .game-area {
+      position: relative;
+      height: 260px;
+      margin-top: 16px;
+      border-radius: 16px;
+      background: #fff0f6;
+      overflow: hidden;
+    }
+
+    .game-heart {
+      position: absolute;
+      font-size: 28px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .score {
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* Photo frame */
+    .photo-frame {
+      margin: 16px auto;
+      width: 180px;
+      height: 180px;
+      border-radius: 20px;
+      border: 6px solid #ffd6e8;
+      overflow: hidden;
+      background: #ffe3ec;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  </style>
 </head>
-
 <body>
 
-<!-- 🎵 MUSIC -->
-<audio id="bgMusic" preload="auto">
-  <source src="our.music" type="audio/mpeg">
-</audio>
-
-<!-- PAGE 1 -->
-<div class="page active" id="page1">
-  <div class="card">
-    <img class="flowers" src="us.jpg.jpg">
-    <h1>Happy Valentine’s Day ❤️</h1>
-    <p>I made something special for you.</p>
-    <button onclick="startExperience()">Read my message 💌</button>
+  <!-- PASSCODE SCREEN -->
+  <div class="screen active" id="passcodeScreen">
+    <div class="card">
+      <h2>💖 Secret Passcode 💖</h2>
+      <input id="passcodeInput" placeholder="1225" />
+      <button onclick="checkPasscode()">Enter</button>
+    </div>
   </div>
-</div>
 
-<!-- PAGE 2 -->
-<div class="page" id="page2">
-  <div class="card">
-    <h2>I love you 💕</h2>
-    <p>Will you read my letter?</p>
-    <button onclick="goToPage(3)">Yes 💖</button>
+  <!-- MINI GAME SCREEN -->
+  <div class="screen" id="gameScreen">
+    <div class="card">
+      <h2>Catch the Hearts 💕</h2>
+      <p>Tap 5 hearts to unlock the message</p>
+      <div class="game-area" id="gameArea"></div>
+      <div class="score">Score: <span id="score">0</span>/5</div>
+    </div>
   </div>
-</div>
 
-<!-- PAGE 3 -->
-<div class="page" id="page3">
-  <div class="card">
-    <img class="photo" src="us1.jpg.jpg">
-    <h2>I Choose You ❤️</h2>
-    <p style="color:#c9184a">
-      From the moment you entered my life, everything felt warmer.
-    </p>
+  <!-- CARD SCREEN -->
+  <div class="screen" id="cardScreen">
+    <div class="card">
+      <h1>Happy Valentine's <span id="name">Love</span> 💌</h1>
+      <div class="photo-frame">
+        <img src="photo.jpg" alt="memory" />
+      </div>
+      <p>Will you read my message? Way ka choice hehe</p>
+      <button onclick="showMessage()">Read My Message</button>
+    </div>
   </div>
-</div>
 
-<script>
-const music=document.getElementById("bgMusic");
+  <!-- MESSAGE SCREEN -->
+  <div class="screen" id="messageScreen">
+    <div class="card">
+      <h2>My Message 💗</h2>
+      <p id="messageText">This is where you put your sweet message.</p>
 
-/* 🔊 GUARANTEED MUSIC START */
-function startExperience(){
-  music.volume=0.7;
-  music.load();
-  music.play().then(()=>{
-    goToPage(2);
-  }).catch(()=>{
-    goToPage(2);
-  });
-}
+      <h3>Write me back 💌</h3>
+      <textarea id="reply" placeholder="Type your reply..."></textarea>
+    </div>
+  </div>
 
-/* BACKUP UNLOCK (mobile browsers) */
-document.addEventListener("click",()=>{
-  if(music.paused){
-    music.play().catch(()=>{});
-  }
-},{once:true});
+  <audio id="music" loop>
+    <source src="our.mucic" type="audio/mpeg">
+  </audio>
 
-function goToPage(n){
-  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
-  document.getElementById("page"+n).classList.add("active");
-}
+  <script>
+    const PASSCODE = "143";
+    let score = 0;
 
-/* 💖 GIANT HEARTS */
-for(let i=0;i<20;i++){
-  const h=document.createElement("div");
-  h.className="heart";
-  h.innerHTML="❤";
-  h.style.left=Math.random()*100+"vw";
-  h.style.fontSize=(Math.random()*2.5+3)+"rem";
-  h.style.animationDuration=(Math.random()*4+8)+"s";
-  document.body.appendChild(h);
-}
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get('name');
+    if (name) document.getElementById('name').textContent = name;
 
-/* 🌸 GIANT FLOWERS */
-const flowers=["🌸","🌷","🌹","💐","🌼"];
-for(let i=0;i<16;i++){
-  const f=document.createElement("div");
-  f.className="flower";
-  f.innerHTML=flowers[Math.floor(Math.random()*flowers.length)];
-  f.style.left=Math.random()*100+"vw";
-  f.style.fontSize=(Math.random()*2.5+3.5)+"rem";
-  f.style.animationDuration=(Math.random()*6+10)+"s";
-  document.body.appendChild(f);
-}
-</script>
+    function show(screenId) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(screenId).classList.add('active');
+    }
 
+    function checkPasscode() {
+      const input = document.getElementById('passcodeInput').value;
+      if (input === PASSCODE) {
+        document.getElementById('music').play();
+        show('gameScreen');
+        startGame();
+      } else {
+        alert('Wrong code 😅');
+      }
+    }
+
+    function startGame() {
+      const area = document.getElementById('gameArea');
+      area.innerHTML = '';
+      score = 0;
+      document.getElementById('score').textContent = score;
+
+      const interval = setInterval(() => {
+        const heart = document.createElement('div');
+        heart.textContent = '💖';
+        heart.className = 'game-heart';
+        heart.style.left = Math.random() * 85 + '%';
+        heart.style.top = Math.random() * 85 + '%';
+
+        heart.onclick = () => {
+          score++;
+          document.getElementById('score').textContent = score;
+          heart.remove();
+          if (score >= 5) {
+            clearInterval(interval);
+            show('cardScreen');
+          }
+        };
+
+        area.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+      }, 700);
+    }
+
+    function showMessage() {
+      show('messageScreen');
+    }
+
+    const replyBox = document.getElementById('reply');
+    replyBox.value = localStorage.getItem('reply') || '';
+    replyBox.addEventListener('input', () => {
+      localStorage.setItem('reply', replyBox.value);
+    });
+
+    // Floating hearts
+    setInterval(() => {
+      const f = document.createElement('div');
+      f.className = 'floating';
+      f.textContent = Math.random() > 0.5 ? '💗' : '🌸';
+      f.style.left = Math.random() * 100 + 'vw';
+      f.style.fontSize = 20 + Math.random() * 20 + 'px';
+      document.body.appendChild(f);
+      setTimeout(() => f.remove(), 8000);
+    }, 600);
+  </script>
 </body>
 </html>
-
