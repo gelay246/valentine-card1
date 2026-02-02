@@ -13,7 +13,8 @@
     body {
       margin: 0;
       font-family: 'Quicksand', sans-serif;
-      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      background: url('https://i.ibb.co/5GfH0xK/cute-cats-bg.jpg') no-repeat center center fixed;
+      background-size: cover;
       min-height: 100vh;
       display: flex;
       align-items: center;
@@ -24,7 +25,7 @@
     .screen {
       display: none;
       width: 100%;
-      max-width: 420px;
+      max-width: 500px;
       padding: 24px;
       text-align: center;
     }
@@ -32,14 +33,19 @@
     .active { display: block; }
 
     .card {
-      background: #fff;
-      border-radius: 24px;
-      padding: 28px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 30px;
+      padding: 36px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
       position: relative;
+      transition: transform 0.3s ease;
     }
 
-    h1, h2 {
+    .card:hover {
+      transform: scale(1.02);
+    }
+
+    h1, h2, h3 {
       font-family: 'Pacifico', cursive;
       color: #e63973;
     }
@@ -48,7 +54,7 @@
       background: linear-gradient(135deg, #ff4d6d, #ff85a1);
       border: none;
       border-radius: 999px;
-      padding: 12px 24px;
+      padding: 14px 28px;
       color: white;
       font-size: 16px;
       cursor: pointer;
@@ -65,9 +71,26 @@
       border: 1px solid #ddd;
       margin-top: 12px;
       font-family: inherit;
+      font-size: 14px;
     }
 
-    textarea { min-height: 100px; }
+    textarea { min-height: 120px; }
+
+    .photo-frame {
+      margin: 16px auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 24px;
+      border: 6px solid #ffd6e8;
+      overflow: hidden;
+      background: #ffe3ec;
+    }
+
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
 
     .floating {
       position: fixed;
@@ -79,45 +102,6 @@
     @keyframes float {
       from { transform: translateY(100vh) scale(0.5); }
       to { transform: translateY(-20vh) scale(1); }
-    }
-
-    /* Mini Game */
-    .game-area {
-      position: relative;
-      height: 260px;
-      margin-top: 16px;
-      border-radius: 16px;
-      background: #fff0f6;
-      overflow: hidden;
-    }
-
-    .game-heart {
-      position: absolute;
-      font-size: 28px;
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .score {
-      font-weight: 600;
-      margin-top: 8px;
-    }
-
-    /* Photo frame */
-    .photo-frame {
-      margin: 16px auto;
-      width: 180px;
-      height: 180px;
-      border-radius: 20px;
-      border: 6px solid #ffd6e8;
-      overflow: hidden;
-      background: #ffe3ec;
-    }
-
-    .photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
     }
   </style>
 </head>
@@ -149,8 +133,17 @@
       <div class="photo-frame">
         <img src="photo.jpg" alt="memory" />
       </div>
-      <p>Will you read my message? Way ka choice hehe</p>
-      <button onclick="showMessage()">Read My Message</button>
+      <p>Do you want to read my message?</p>
+      <button onclick="showReplyOption()">Reply?</button>
+    </div>
+  </div>
+
+  <!-- REPLY SCREEN -->
+  <div class="screen" id="replyScreen">
+    <div class="card">
+      <h2>Write me back 💌</h2>
+      <textarea id="reply" placeholder="Type your reply..."></textarea>
+      <button onclick="sendReply()">Send Reply</button>
     </div>
   </div>
 
@@ -159,14 +152,12 @@
     <div class="card">
       <h2>My Message 💗</h2>
       <p id="messageText">This is where you put your sweet message.</p>
-
-      <h3>Write me back 💌</h3>
-      <textarea id="reply" placeholder="Type your reply..."></textarea>
+      <button onclick="playAudio()">Read My Message 🎵</button>
     </div>
   </div>
 
   <audio id="music" loop>
-    <source src="our.mucic" type="audio/mpeg">
+    <source src="our.music.mp3" type="audio/mpeg">
   </audio>
 
   <script>
@@ -185,7 +176,6 @@
     function checkPasscode() {
       const input = document.getElementById('passcodeInput').value;
       if (input === PASSCODE) {
-        document.getElementById('music').play();
         show('gameScreen');
         startGame();
       } else {
@@ -221,17 +211,29 @@
       }, 700);
     }
 
-    function showMessage() {
+    function showReplyOption() {
+      show('replyScreen');
+    }
+
+    function sendReply() {
+      const reply = document.getElementById('reply').value;
+      if(!reply) { alert("Please type a message first 😅"); return; }
+
+      // Sending via Gmail using mailto
+      const mailtoLink = `mailto:gelayfaith616@gmail.com?subject=Valentine's Reply&body=${encodeURIComponent(reply)}`;
+      window.location.href = mailtoLink;
+
+      alert("Your reply is ready to send! 💌");
       show('messageScreen');
     }
 
-    const replyBox = document.getElementById('reply');
-    replyBox.value = localStorage.getItem('reply') || '';
-    replyBox.addEventListener('input', () => {
-      localStorage.setItem('reply', replyBox.value);
-    });
+    function playAudio() {
+      const audio = document.getElementById('music');
+      audio.play().catch(() => alert("Audio could not play. Make sure your browser allows autoplay."));
+      show('messageScreen');
+    }
 
-    // Floating hearts
+    // Floating hearts & flowers
     setInterval(() => {
       const f = document.createElement('div');
       f.className = 'floating';
@@ -244,4 +246,3 @@
   </script>
 </body>
 </html>
-
