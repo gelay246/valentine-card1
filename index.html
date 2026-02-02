@@ -1,248 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Happy Valentine's, Babi!💖</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine 💖</title>
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: url('https://i.ibb.co/5GfH0xK/cute-cats-bg.jpg') no-repeat center center fixed;
-      background-size: cover;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
 
-    .screen {
-      display: none;
-      width: 100%;
-      max-width: 500px;
-      padding: 24px;
-      text-align: center;
-    }
+body{
+  font-family:'Quicksand',sans-serif;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background-size:cover;
+  background-position:center;
+  transition:background-image 1s ease-in-out;
+  overflow:hidden;
+}
 
-    .active { display: block; }
+/* BIG PULSING HEART */
+.pulse-heart{
+  position:fixed;
+  font-size:10rem;
+  opacity:.18;
+  animation:pulse 2.5s infinite;
+  z-index:0;
+}
 
-    .card {
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 30px;
-      padding: 36px;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
-      position: relative;
-      transition: transform 0.3s ease;
-    }
+@keyframes pulse{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
+}
 
-    .card:hover {
-      transform: scale(1.02);
-    }
+/* SCREENS */
+.screen{
+  display:none;
+  width:100%;
+  max-width:480px;
+  padding:24px;
+  text-align:center;
+  z-index:2;
+}
+.screen.active{display:block}
 
-    h1, h2, h3 {
-      font-family: 'Pacifico', cursive;
-      color: #e63973;
-    }
+.card{
+  background:rgba(255,255,255,.95);
+  border-radius:28px;
+  padding:36px;
+  box-shadow:0 25px 50px rgba(0,0,0,.25);
+}
 
-    button {
-      background: linear-gradient(135deg, #ff4d6d, #ff85a1);
-      border: none;
-      border-radius: 999px;
-      padding: 14px 28px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      margin-top: 16px;
-      transition: transform .2s ease;
-    }
+h1,h2{
+  font-family:'Pacifico',cursive;
+  color:#e63973;
+  margin-bottom:1rem;
+}
 
-    button:hover { transform: scale(1.05); }
+p{color:#555;margin-bottom:1.2rem}
 
-    input, textarea {
-      width: 100%;
-      padding: 12px;
-      border-radius: 12px;
-      border: 1px solid #ddd;
-      margin-top: 12px;
-      font-family: inherit;
-      font-size: 14px;
-    }
+button{
+  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
+  border:none;
+  border-radius:999px;
+  padding:14px 28px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
 
-    textarea { min-height: 120px; }
-
-    .photo-frame {
-      margin: 16px auto;
-      width: 220px;
-      height: 220px;
-      border-radius: 24px;
-      border: 6px solid #ffd6e8;
-      overflow: hidden;
-      background: #ffe3ec;
-    }
-
-    .photo-frame img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .floating {
-      position: fixed;
-      pointer-events: none;
-      animation: float 8s linear infinite;
-      opacity: 0.6;
-    }
-
-    @keyframes float {
-      from { transform: translateY(100vh) scale(0.5); }
-      to { transform: translateY(-20vh) scale(1); }
-    }
-  </style>
+textarea{
+  width:100%;
+  min-height:120px;
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #ddd;
+  font-family:inherit;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- PASSCODE SCREEN -->
-  <div class="screen active" id="passcodeScreen">
-    <div class="card">
-      <h2>💖 Secret Passcode 💖</h2>
-      <input id="passcodeInput" placeholder="Iloveyou" />
-      <button onclick="checkPasscode()">Enter</button>
-    </div>
+<div class="pulse-heart">❤️</div>
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="screen1">
+  <div class="card">
+    <h2>Hi Love 💖</h2>
+    <p>I made something special for you.</p>
+    <button onclick="start()">Open 💌</button>
   </div>
+</div>
 
-  <!-- MINI GAME SCREEN -->
-  <div class="screen" id="gameScreen">
-    <div class="card">
-      <h2>Catch the Hearts 💕</h2>
-      <p>Tap 5 hearts to unlock the message</p>
-      <div class="game-area" id="gameArea"></div>
-      <div class="score">Score: <span id="score">0</span>/5</div>
-    </div>
+<!-- SCREEN 2 -->
+<div class="screen" id="screen2">
+  <div class="card">
+    <h1>Happy Valentine’s 💕</h1>
+    <p id="myMessage">
+      This is where you write your message.  
+      You can change this anytime in the code 💗
+    </p>
+    <button onclick="playMusic()">Play Music 🎵</button>
   </div>
+</div>
 
-  <!-- CARD SCREEN -->
-  <div class="screen" id="cardScreen">
-    <div class="card">
-      <h1>Happy Valentine's <span id="name">Love</span> 💌</h1>
-      <div class="photo-frame">
-        <img src="photo.jpg" alt="memory" />
-      </div>
-      <p>Do you want to read my message?</p>
-      <button onclick="showReplyOption()">Reply?</button>
-    </div>
-  </div>
+<audio id="music" loop>
+  <source src="our.music.mp3" type="audio/mpeg">
+</audio>
 
-  <!-- REPLY SCREEN -->
-  <div class="screen" id="replyScreen">
-    <div class="card">
-      <h2>Write me back 💌</h2>
-      <textarea id="reply" placeholder="Type your reply..."></textarea>
-      <button onclick="sendReply()">Send Reply</button>
-    </div>
-  </div>
+<script>
+/* BACKGROUND SLIDESHOW */
+const backgrounds = ['cat.jpg','cat2.jpg','cat3.jpg'];
+let bgIndex = 0;
 
-  <!-- MESSAGE SCREEN -->
-  <div class="screen" id="messageScreen">
-    <div class="card">
-      <h2>My Message 💗</h2>
-      <p id="messageText">This is where you put your sweet message.</p>
-      <button onclick="playAudio()">Read My Message 🎵</button>
-    </div>
-  </div>
+function changeBackground(){
+  document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+  bgIndex = (bgIndex + 1) % backgrounds.length;
+}
+changeBackground();
+setInterval(changeBackground, 5000);
 
-  <audio id="music" loop>
-    <source src="our.music.mp3" type="audio/mpeg">
-  </audio>
+/* SCREEN CONTROL */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
 
-  <script>
-    const PASSCODE = "143";
-    let score = 0;
+/* START */
+function start(){
+  show('screen2');
+}
 
-    const params = new URLSearchParams(window.location.search);
-    const name = params.get('name');
-    if (name) document.getElementById('name').textContent = name;
+/* MUSIC — GUARANTEED */
+function playMusic(){
+  const audio = document.getElementById('music');
+  audio.volume = 0.7;
+  audio.play();
+}
+</script>
 
-    function show(screenId) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById(screenId).classList.add('active');
-    }
-
-    function checkPasscode() {
-      const input = document.getElementById('passcodeInput').value;
-      if (input === PASSCODE) {
-        show('gameScreen');
-        startGame();
-      } else {
-        alert('Wrong code 😅');
-      }
-    }
-
-    function startGame() {
-      const area = document.getElementById('gameArea');
-      area.innerHTML = '';
-      score = 0;
-      document.getElementById('score').textContent = score;
-
-      const interval = setInterval(() => {
-        const heart = document.createElement('div');
-        heart.textContent = '💖';
-        heart.className = 'game-heart';
-        heart.style.left = Math.random() * 85 + '%';
-        heart.style.top = Math.random() * 85 + '%';
-
-        heart.onclick = () => {
-          score++;
-          document.getElementById('score').textContent = score;
-          heart.remove();
-          if (score >= 5) {
-            clearInterval(interval);
-            show('cardScreen');
-          }
-        };
-
-        area.appendChild(heart);
-        setTimeout(() => heart.remove(), 3000);
-      }, 700);
-    }
-
-    function showReplyOption() {
-      show('replyScreen');
-    }
-
-    function sendReply() {
-      const reply = document.getElementById('reply').value;
-      if(!reply) { alert("Please type a message first 😅"); return; }
-
-      // Sending via Gmail using mailto
-      const mailtoLink = `mailto:gelayfaith616@gmail.com?subject=Valentine's Reply&body=${encodeURIComponent(reply)}`;
-      window.location.href = mailtoLink;
-
-      alert("Your reply is ready to send! 💌");
-      show('messageScreen');
-    }
-
-    function playAudio() {
-      const audio = document.getElementById('music');
-      audio.play().catch(() => alert("Audio could not play. Make sure your browser allows autoplay."));
-      show('messageScreen');
-    }
-
-    // Floating hearts & flowers
-    setInterval(() => {
-      const f = document.createElement('div');
-      f.className = 'floating';
-      f.textContent = Math.random() > 0.5 ? '💗' : '🌸';
-      f.style.left = Math.random() * 100 + 'vw';
-      f.style.fontSize = 20 + Math.random() * 20 + 'px';
-      document.body.appendChild(f);
-      setTimeout(() => f.remove(), 8000);
-    }, 600);
-  </script>
 </body>
 </html>
