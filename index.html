@@ -2,110 +2,170 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>Happy Valentine’s 💖</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Valentine 💖</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+* { box-sizing: border-box; }
 
-body{
-  font-family:'Quicksand',sans-serif;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background-size:cover;
-  background-position:center;
-  transition:background-image 1s ease-in-out;
-  overflow:hidden;
-}
-
-/* BIG PULSING HEART */
-.pulse-heart{
-  position:fixed;
-  font-size:10rem;
-  opacity:.18;
-  animation:pulse 2.5s infinite;
-  z-index:0;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1)}
-  50%{transform:scale(1.15)}
-  100%{transform:scale(1)}
+body {
+  margin: 0;
+  font-family: 'Quicksand', sans-serif;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  transition: background-image 1s ease;
 }
 
 /* SCREENS */
-.screen{
-  display:none;
-  width:100%;
-  max-width:480px;
-  padding:24px;
-  text-align:center;
-  z-index:2;
+.screen {
+  display: none;
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
 }
-.screen.active{display:block}
+.screen.active { display: block; }
 
-.card{
-  background:rgba(255,255,255,.95);
-  border-radius:28px;
-  padding:36px;
-  box-shadow:0 25px 50px rgba(0,0,0,.25);
-}
-
-h1,h2{
-  font-family:'Pacifico',cursive;
-  color:#e63973;
-  margin-bottom:1rem;
+.card {
+  background: rgba(255,255,255,0.95);
+  border-radius: 30px;
+  padding: 30px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
 }
 
-p{color:#555;margin-bottom:1.2rem}
-
-button{
-  background:linear-gradient(135deg,#ff4d6d,#ff85a1);
-  border:none;
-  border-radius:999px;
-  padding:14px 28px;
-  color:white;
-  font-size:16px;
-  cursor:pointer;
+h1, h2 {
+  font-family: 'Pacifico', cursive;
+  color: #e63973;
 }
 
-textarea{
-  width:100%;
-  min-height:120px;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ddd;
-  font-family:inherit;
+button {
+  margin-top: 15px;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg,#ff4d6d,#ff8fab);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-top: 12px;
+}
+
+/* GAME */
+.game-area {
+  position: relative;
+  height: 250px;
+}
+
+.game-heart {
+  position: absolute;
+  font-size: 42px;
+  cursor: pointer;
+  animation: pop 1s infinite alternate;
+}
+
+@keyframes pop {
+  from { transform: scale(1); }
+  to { transform: scale(1.2); }
+}
+
+/* PHOTOS */
+.photos {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 15px 0;
+}
+.photos img {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+  object-fit: cover;
+  border: 5px solid #ffd6e8;
+}
+
+/* FLOATING BIG HEART */
+.big-heart {
+  position: fixed;
+  font-size: 200px;
+  animation: burst 2.5s ease-out forwards;
+}
+
+@keyframes burst {
+  0% { transform: scale(0); opacity: 1; }
+  60% { transform: scale(1.4); opacity: 1; }
+  100% { transform: scale(2); opacity: 0; }
 }
 </style>
 </head>
 
 <body>
 
-<div class="pulse-heart">❤️</div>
-
-<!-- SCREEN 1 -->
-<div class="screen active" id="screen1">
+<!-- PASSCODE -->
+<div class="screen active" id="passcode">
   <div class="card">
-    <h2>Hi Love 💖</h2>
-    <p>I made something special for you.</p>
-    <button onclick="start()">Open 💌</button>
+    <h2>💖 Enter Passcode 💖</h2>
+    <input id="code" placeholder="143">
+    <button onclick="checkCode()">Open</button>
   </div>
 </div>
 
-<!-- SCREEN 2 -->
-<div class="screen" id="screen2">
+<!-- GAME -->
+<div class="screen" id="game">
   <div class="card">
-    <h1>Happy Valentine’s 💕</h1>
-    <p id="myMessage">
-      This is where you write your message.  
-      You can change this anytime in the code 💗
+    <h2>Catch 5 Hearts 💕</h2>
+    <div class="game-area" id="gameArea"></div>
+    <p>Score: <span id="score">0</span>/5</p>
+  </div>
+</div>
+
+<!-- MUSIC -->
+<div class="screen" id="musicScreen">
+  <div class="card">
+    <h2>🎵 Play Music</h2>
+    <button onclick="startMusic()">Play Music</button>
+  </div>
+</div>
+
+<!-- MESSAGE -->
+<div class="screen" id="message">
+  <div class="card">
+    <h1>Happy Valentine’s 💌</h1>
+
+    <div class="photos">
+      <img src="photo1.jpg">
+      <img src="photo2.jpg">
+    </div>
+
+    <p>
+      Hi love 💖  
+      This message is just for you.  
+      Thank you for being my safe place, my joy, my favorite person.
     </p>
-    <button onclick="playMusic()">Play Music 🎵</button>
+
+    <button onclick="goReply()">Type a reply?</button>
+  </div>
+</div>
+
+<!-- REPLY -->
+<div class="screen" id="reply">
+  <div class="card">
+    <h2>Write me back 💗</h2>
+    <textarea id="replyText" placeholder="Your message..."></textarea>
+    <button onclick="sendReply()">Send</button>
   </div>
 </div>
 
@@ -114,35 +174,83 @@ textarea{
 </audio>
 
 <script>
-/* BACKGROUND SLIDESHOW */
-const backgrounds = ['cat.jpg','cat2.jpg','cat3.jpg'];
+let score = 0;
+let music = document.getElementById("music");
 let bgIndex = 0;
+const backgrounds = ["cat.jpg","cat2.jpg","cat3.jpg"];
 
-function changeBackground(){
-  document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
-  bgIndex = (bgIndex + 1) % backgrounds.length;
-}
-changeBackground();
-setInterval(changeBackground, 5000);
-
-/* SCREEN CONTROL */
-function show(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* START */
-function start(){
-  show('screen2');
+function checkCode() {
+  if (document.getElementById("code").value === "143") {
+    show("game");
+    startGame();
+  } else alert("Wrong passcode 😅");
 }
 
-/* MUSIC — GUARANTEED */
-function playMusic(){
-  const audio = document.getElementById('music');
-  audio.volume = 0.7;
-  audio.play();
+function startGame() {
+  const area = document.getElementById("gameArea");
+  score = 0;
+  document.getElementById("score").textContent = score;
+  area.innerHTML = "";
+
+  const interval = setInterval(() => {
+    const h = document.createElement("div");
+    h.className = "game-heart";
+    h.textContent = "💖";
+    h.style.left = Math.random()*80+"%";
+    h.style.top = Math.random()*80+"%";
+    h.onclick = () => {
+      score++;
+      document.getElementById("score").textContent = score;
+      h.remove();
+      if (score === 5) {
+        clearInterval(interval);
+        show("musicScreen");
+      }
+    };
+    area.appendChild(h);
+    setTimeout(()=>h.remove(),3000);
+  },600);
+}
+
+function startMusic() {
+  music.play();
+  cycleBackground();
+  show("message");
+}
+
+function cycleBackground() {
+  document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+  bgIndex = (bgIndex + 1) % backgrounds.length;
+  setInterval(() => {
+    document.body.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+    bgIndex = (bgIndex + 1) % backgrounds.length;
+  }, 4000);
+}
+
+function goReply() {
+  show("reply");
+}
+
+function sendReply() {
+  const heart = document.createElement("div");
+  heart.className = "big-heart";
+  heart.textContent = "💖";
+  document.body.appendChild(heart);
+
+  let vol = 1;
+  const fade = setInterval(()=>{
+    vol -= 0.05;
+    music.volume = vol;
+    if(vol<=0) clearInterval(fade);
+  },150);
 }
 </script>
 
 </body>
 </html>
+
